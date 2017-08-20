@@ -1,7 +1,9 @@
 <?php
 namespace CF\Error;
 
+use CF\Configuration;
 use CF\Runtime\RunTime;
+use CF\Tool\JsonObject;
 
 abstract class ErrorCollection {
 
@@ -18,7 +20,7 @@ abstract class ErrorCollection {
 	const FORMAT_HTML = 'html';
 	const FORMAT_JS = 'js';
 
-	use CF\Tool\JsonObject;
+	use JsonObject;
 
 	/**
 	 * @var string[]
@@ -237,11 +239,8 @@ abstract class ErrorCollection {
 						}
 					}
 
-					$argStr = str_replace(FILE_ROOT, 'FileRoot/', $argStr);
+					$argStr = str_replace(Configuration::gI()->getFileRoot(), 'FileRoot/', $argStr);
 
-					if(defined('ABS_FILE_ROOT')) {
-						$argStr = str_replace(ABS_FILE_ROOT, 'AbsFileRoot/', $argStr);
-					}
 					if(strlen($argStr) > 153) {
 						$argStr = mb_substr($argStr, 0,75) .' ... '. substr($argStr,-75);
 					}
@@ -267,11 +266,8 @@ abstract class ErrorCollection {
 
 	protected function replacePathInStr($path) {
 
-		static $replacement = array(CONSCRIBO_LIB_ROOT => '[LibRoot]/',
-									FILE_ROOT => '[FileRoot]/');
-		if(defined('_ABS_FILE_ROOT_')) {
-			$replacement[_ABS_FILE_ROOT_] = '[AbsFileRoot]/';
-		}
+		$replacement = array(Configuration::gI()->getLibraryRoot() => '[LibRoot]/',
+								Configuration::gI()->getFileRoot() => '[FileRoot]/');
 
 		$path = substr(str_replace(array_keys($replacement),$replacement, $path), -80);
 		if(strlen($path) == 80) {

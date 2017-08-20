@@ -3,6 +3,7 @@
 namespace CF\Tool;
 
 // verzorgt kennis van een bankaccount.
+use CF\Configuration;
 
 /**
  * Update 2014-02-25, geschikt gemaakt voor extern gebruik.
@@ -159,7 +160,7 @@ class BankAccount {
 
 		if(!isset($_ENV['IBAN_BIC_conversions'])) {
 			$ibanBicConversion = NULL;
-		include_once CONSCRIBO_LIB_ROOT . 'resources/iban_bic_conversions.php';
+		include_once Configuration::gI()->getLibraryRoot() . 'resources/iban_bic_conversions.php';
 			$_ENV['IBAN_BIC_conversions'] = $ibanBicConversion;
 		}
 

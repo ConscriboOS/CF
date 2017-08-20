@@ -1,6 +1,7 @@
 <?php
 namespace CF\DataStruct;
 
+use CF\Configuration;
 use CF\DataStruct\DataStructCollection;
 use CF\DataStruct\Field\DataStructField;
 use CF\DataStruct\DataStructManager;
@@ -28,7 +29,6 @@ class DataStructOverview {
 	const USER_TEMPLATE = 1;
 	const MAX_SORT_FIELDS = 3;
 
-	const BASE_TEMPLATE_FILENAME = CONSCRIBO_LIB_ROOT . 'templates/datastructoverview.tpl';
 
 	/**
 	 * Definitie van een kolom in de overview
@@ -252,11 +252,11 @@ class DataStructOverview {
 		$session = unserialize($sessionStr);
 
 		$fileName = $session['outputTemplate'];
-		if(strpos($fileName, FILE_ROOT) !== 0) {
+		if(strpos($fileName, Configuration::gI()->getFileRoot()) !== 0) {
 			if(strpos($fileName, '..') !== false) {
 				throw new Exception('intrusion detected');
 			}
-			$fileName = FILE_ROOT . $fileName;
+			$fileName = Configuration::gI()->getFileRoot() . $fileName;
 		}
 
 
@@ -876,7 +876,7 @@ class DataStructOverview {
 							   DataStructOverview::USER_TEMPLATE => $this->outputTemplate);
 		} else {
 			// te gebruiken templates:
-			$templates = array(DataStructOverview::OVERVIEW_TEMPLATE => new Template(self::BASE_TEMPLATE_FILENAME),
+			$templates = array(DataStructOverview::OVERVIEW_TEMPLATE => new Template(Configuration::gI()->getLibraryRoot(). 'templates/datastructoverview.tpl'),
 								   DataStructOverview::USER_TEMPLATE => $this->outputTemplate);
 			}
 
@@ -1534,7 +1534,7 @@ class DataStructOverview {
 
 
 	public function storeInSession() {
-		$templateName = substr($this->outputTemplate->getFileName(), strlen(FILE_ROOT));
+		$templateName = substr($this->outputTemplate->getFileName(), strlen(Configuration::gI()->getFileRoot()));
 		$sessionInfo = array('outputTemplate' => $templateName,
 							 'cellDefinitions' => $this->cellDefinitions,
 							 'emptyColumnSection' => $this->emptyColumnSection,

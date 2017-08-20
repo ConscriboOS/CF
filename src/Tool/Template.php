@@ -2,6 +2,7 @@
 
 namespace CF\Tool;
 use BehaviourException;
+use CF\Configuration;
 use CF\Indien;
 use CF\Runtime\Runtime;
 
@@ -99,7 +100,7 @@ class Template {
 		}
 
 		if(substr($fileName, 0, 1) != '/') {
-			$fileName = FILE_ROOT . $fileName;
+			$fileName = Configuration::gI()->getFileRoot() . $fileName;
 		}
 
 		if(!is_file($fileName)) {

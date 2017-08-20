@@ -7,6 +7,9 @@ class Configuration {
 	
 	private $runtimeName;
 
+	private $libraryRoot;
+	private $fileRoot;
+
 	/**
 	 * @var array with per name a configuration;
 	 */
@@ -21,6 +24,9 @@ class Configuration {
 	}
 	
 	private function __construct() {
+		$this->libraryRoot = realpath(dirname(__FILE__)) .'/';
+		// fileRoot is the path to the project.
+		$this->fileRoot = realpath(dirname(__FILE__) .'../../../') .'/';
 	}
 
 	/**
@@ -55,4 +61,20 @@ class Configuration {
 		// TODO: this should be protected (maybe this function can callback the db instance so the pass is not requestable)
 		return $this->databaseConfigurations[$name];
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getLibraryRoot() {
+		return $this->libraryRoot;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFileRoot() {
+		return $this->fileRoot;
+	}
+
+
 }
