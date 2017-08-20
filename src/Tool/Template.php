@@ -1,7 +1,8 @@
 <?php
 
-namespace CF;
+namespace CF\Tool;
 use BehaviourException;
+use CF\Indien;
 use CF\Runtime\Runtime;
 
 

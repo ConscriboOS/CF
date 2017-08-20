@@ -1,6 +1,6 @@
 <?php
 
-namespace CF;
+namespace CF\Tool;
 
 
 use CF\Runtime\Runtime;

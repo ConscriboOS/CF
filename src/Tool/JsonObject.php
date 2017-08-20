@@ -1,5 +1,5 @@
 <?php
-namespace CF;
+namespace CF\Tool;
 
 /**
  * Deze nieuwe trait is ontworpen voor gebruik met 'dataobjecten' Deze objecten worden een vervanging van de vele structs die nu Conscribo verlossen van los argumetnen heen en weer fietsen.

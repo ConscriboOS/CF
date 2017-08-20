@@ -8,7 +8,7 @@
  * in het framework zelf staat, en via het framework de implementatie runtime ophaalt.
  */
 function gR() {
-	return \CF\Runtime\Runtime::gI('');
+	return \CF\Runtime\Runtime::gI();
 }
 
 

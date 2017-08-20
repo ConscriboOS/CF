@@ -4,7 +4,7 @@ namespace CF\DataStruct;
 use CF\DataStruct\DataStructCollection;
 use CF\DataStruct\Field\DataStructField;
 use CF\DataStruct\DataStructManager;
-use CF\Template;
+use CF\Tool\Template;
 use CF\DataStruct\DataStructOverviewCollectionInterface;
 use CF\Exception\DeveloperException;
 use Exception;

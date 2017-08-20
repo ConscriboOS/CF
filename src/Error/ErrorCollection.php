@@ -18,7 +18,7 @@ abstract class ErrorCollection {
 	const FORMAT_HTML = 'html';
 	const FORMAT_JS = 'js';
 
-	use \CF\JsonObject;
+	use CF\Tool\JsonObject;
 
 	/**
 	 * @var string[]
