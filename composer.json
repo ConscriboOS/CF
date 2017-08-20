@@ -2,12 +2,12 @@
     "name": "conscribo-os/cf",
     "type": "library",
     "description": "Non-instrusive ORM for PHP",
-    
-	"keywords": ["database", "orm", "trait", "join", "inheritance", "versatile"],
+    "keywords": ["database", "orm", "trait", "join", "inheritance", "versatile"],
     "homepage": "https://github.com/ConscriboOS/CF",
     "license": "MIT",
     "autoload": {
-        "psr-4": { "CF\\": "src/" }
+        "psr-4": { "CF\\": "src/" },
+        "files": ["vendor/conscribo-os/Tool/conscriboTools.php"]
     },
     "require": {
         "php": ">=5.4.0"

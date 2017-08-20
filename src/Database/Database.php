@@ -1,10 +1,11 @@
 <?php
 
-namespace CF\Tool;
+namespace CF\Database;
 
-use CF\ConscriboFrameworkDatabase;
-use CF\ErrorCollection;
+use CF\Database\ConscriboFrameworkDatabase;
+use CF\Error\ErrorCollection;
 use CF\Exception\DeveloperException;
+use CF\Tool\CF;
 
 class Database implements ConscriboFrameworkDatabase{
 
@@ -62,7 +63,7 @@ class Database implements ConscriboFrameworkDatabase{
 
 	public function popNameSpace($currentNameSpace) {
 		if($this->nameSpace !== $currentNameSpace) {
-			gR()->addError('Incorrect namespace given. Stackerror! : given: ' . $currentNameSpace . ', actual: ' . $this->nameSpace);
+			\CF\Runtime\Runtime::gI()->addError('Incorrect namespace given. Stackerror! : given: ' . $currentNameSpace . ', actual: ' . $this->nameSpace);
 		}
 		$nameSpace = array_pop($this->nameSpaceStack);
 		$this->nameSpace = $nameSpace;
@@ -94,17 +95,18 @@ class Database implements ConscriboFrameworkDatabase{
 	}
 
 	/**
-	 * Set a connection, stored in $_ENV['databaseConnectors'][<which>]= array('host' => .., 'user' => .. , 'pw' => .. ,'db' => ..., 'port' => ....)
+	 * Set a connection stored in the configuration.
 	 * @param string $which
 	 */
 	public function connect($which = 'default') {
-		$port = isset($_ENV['databaseConnectors'][$which]['port']) ? $_ENV['databaseConnectors'][$which]['port'] : NULL;
+		
+		$config = CF\Configuration::gI()->getDatabaseConfiguration($which);
 
-		return $this->connectCustomDataBase($_ENV['databaseConnectors'][$which]['host'],
-											$_ENV['databaseConnectors'][$which]['user'],
-											$_ENV['databaseConnectors'][$which]['pw'],
-											$_ENV['databaseConnectors'][$which]['db'],
-											$port);
+		return $this->connectCustomDataBase($config['hostName'],
+											$config['userName'],
+											$config['password'],
+											$config['dbName'],
+											$config['port']);
 	}
 
 
@@ -118,7 +120,7 @@ class Database implements ConscriboFrameworkDatabase{
 		}
 
 		if(!$this->db = mysqli_connect($host, $user, $password, NULL, $port)) {
-			gR()->addError('Mysql connect: Unable to connect to Database!');
+			\CF\Runtime\Runtime::gI()->addError('Mysql connect: Unable to connect to Database!');
 		}
 
 		$this->startTime = microtime(true);
@@ -128,7 +130,7 @@ class Database implements ConscriboFrameworkDatabase{
 
 		if($database !== NULL) {
 			if(!mysqli_select_db($this->db, $database)) {
-				gR()->addError('Mysql connect: Unable to select database');
+				\CF\Runtime\Runtime::gI()->addError('Mysql connect: Unable to select database');
 			}
 			$this->currentDbName = $database;
 		}
@@ -172,7 +174,7 @@ class Database implements ConscriboFrameworkDatabase{
 		if($this->numrows != 0) {
 			return $this->fetchRow($result);
 		} else {
-			gR()->addWarning('select function, but 0 rows returned in query :' . $query);
+			\CF\Runtime\Runtime::gI()->addWarning('select function, but 0 rows returned in query :' . $query);
 		}
 	}
 
@@ -189,7 +191,7 @@ class Database implements ConscriboFrameworkDatabase{
 		}
 
 		if(!$this->connected) {
-			gR()->addError('Query: Not connected to database');
+			\CF\Runtime\Runtime::gI()->addError('Query: Not connected to database');
 			return 0;
 		}
 
@@ -214,7 +216,7 @@ class Database implements ConscriboFrameworkDatabase{
 					}
 			}
 
-			gR()->addError('Error in query : ' . "\n\"" . $query . "\"\nMessage: ==# " . mysqli_error($this->db) . ' #==');
+			\CF\Runtime\Runtime::gI()->addError('Error in query : ' . "\n\"" . $query . "\"\nMessage: ==# " . mysqli_error($this->db) . ' #==');
 
 			unset($this->lastInsertId[$result]);
 			return 0;
@@ -229,7 +231,7 @@ class Database implements ConscriboFrameworkDatabase{
 		}
 		if(_DEBUGGING_) {
 			if((microtime(true) - $startTime) > 0.2) {
-				//gR()->addNotice('Slow query: '. (microtime(true) - $startTime) . $query );
+				//\CF\Runtime::gI()->addNotice('Slow query: '. (microtime(true) - $startTime) . $query );
 			}
 			$this->output[$result] .= (microtime(true) - $startTime) . "\n" . $query . "\n\n";
 		}
@@ -250,7 +252,7 @@ class Database implements ConscriboFrameworkDatabase{
 		if($this->teller[$result] < $this->numrows[$result]) {
 			return mysqli_fetch_row($this->result[$result]);
 		} else {
-			gR()->addWarning('WARNING : Fetched behind last row. Amount of results: ' . $this->numrows[$result] . ' in query: ' . $this->cur_query[$result]);
+			\CF\Runtime\Runtime::gI()->addWarning('WARNING : Fetched behind last row. Amount of results: ' . $this->numrows[$result] . ' in query: ' . $this->cur_query[$result]);
 			return 0;
 		}
 	}
@@ -299,7 +301,7 @@ class Database implements ConscriboFrameworkDatabase{
 			} else {
 				$row = $this->fetchAssoc($result);
 				if($row[$keyFieldName] === NULL) {
-					gR()->addNotice('fetchAllAssoc returned a key-value NULL');
+					\CF\Runtime\Runtime::gI()->addNotice('fetchAllAssoc returned a key-value NULL');
 				}
 				$out[$row[$keyFieldName]] = $row;
 			}
@@ -317,7 +319,7 @@ class Database implements ConscriboFrameworkDatabase{
 		for($i = 0; $i < $this->numrows[$result]; $i++) {
 			$row = $this->fetchAssoc($result);
 			if($row[$keyFieldName] === NULL) {
-				gR()->addNotice('fetchAllAssoc returned a key-value NULL');
+				\CF\Runtime\Runtime::gI()->addNotice('fetchAllAssoc returned a key-value NULL');
 			}
 			$out[$row[$keyFieldName]] = $row;
 		}
@@ -332,7 +334,7 @@ class Database implements ConscriboFrameworkDatabase{
 		for($i = 0; $i < $this->numrows[$result]; $i++) {
 			list($row) = $this->fetchRow($result);
 			if($row === NULL) {
-				gR()->addNotice('fetchAllIds returned a key-value NULL');
+				\CF\Runtime\Runtime::gI()->addNotice('fetchAllIds returned a key-value NULL');
 			}
 			if($distinct) {
 				$out[$row] = $row;
@@ -408,7 +410,7 @@ class Database implements ConscriboFrameworkDatabase{
 		if(!empty($this->lastInsertId[$result])) {
 			return $this->lastInsertId[$result];
 		}
-		gR()->addWarning('WARNING : last insert id not retreived in query: ' . $this->cur_query[$result]);
+		\CF\Runtime\Runtime::gI()->addWarning('WARNING : last insert id not retreived in query: ' . $this->cur_query[$result]);
 	}
 
 	/**
@@ -657,12 +659,12 @@ class Database implements ConscriboFrameworkDatabase{
 		// first create a copy so the blocks are reusable;
 		$qbs = $this->qbs[$name];
 		if(!isset($qbs)) {
-			gR()->addWarning('Unkown blockQuery: ' . $name . ' in $Database::formatBlockQuery()');
+			\CF\Runtime\Runtime::gI()->addWarning('Unkown blockQuery: ' . $name . ' in $Database::formatBlockQuery()');
 			return '';
 		}
 
 		if(!isset($qbs['what']) || count($qbs['what']) == 0) {
-			gR()->addWarning('At least a "what" criteria should be present in blockQuery: ' . $name . '. in $Database::formatBlockQuery()');
+			\CF\Runtime\Runtime::gI()->addWarning('At least a "what" criteria should be present in blockQuery: ' . $name . '. in $Database::formatBlockQuery()');
 			return '';
 		}
 

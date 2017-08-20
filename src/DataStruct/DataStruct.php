@@ -325,12 +325,12 @@ trait DataStruct {
 	/**
 	 * Haalt de waarden uit een formulier en zet deze in de datastruct.
 	 * @param ConscriboForm $form
-	 * @return \CF\ErrorCollection
+	 * @return \CF\Error\ErrorCollection
 	 */
 	public function populateFromForm(ConscriboForm $form) {
 
 		$formValues = $form->getFormValues();
-		$errors = CF\Runtime::gI()->createErrorCollection();
+		$errors = CF\Runtime\Runtime::gI()->createErrorCollection();
 
 		foreach($this->_getFieldInfo() as $name => $field) {
 			$code = $field->code;
@@ -352,11 +352,11 @@ trait DataStruct {
 
 	/**
 	 * Controleert de datastruct op fouten.
-	 * @return \CF\ErrorCollection errors
+	 * @return \CF\Error\ErrorCollection errors
 	 */
 	public function validate($errors = NULL) {
 		if($errors === NULL) {
-			$errors = \CF\Runtime::gI()->createErrorCollection();
+			$errors = CF\Runtime\Runtime::gI()->createErrorCollection();
 		}
 		foreach($this->_getFieldInfo() as $name => $field) {
 			if(property_exists($this, $name)) {
@@ -652,7 +652,7 @@ trait DataStruct {
 		$explination = array();
 		foreach($keys as $fieldName => $value) {
 			$explination[] = $fieldName . ' = ' . $value;
-			gR()->db()->addWhere($ourClassName, $fieldName, '=', $value);
+			CF\Runtime\Runtime::gI()->db()->addWhere($ourClassName, $fieldName, '=', $value);
 			$dbPresent = true;
 		}
 
@@ -660,9 +660,9 @@ trait DataStruct {
 			return NULL;
 		}
 
-		gR()->db()->queryBlock($ourClassName);
+		CF\Runtime\Runtime::gI()->db()->queryBlock($ourClassName);
 
-		$localRecord = gR()->db()->fetchAssoc();
+		$localRecord = CF\Runtime\Runtime::gI()->db()->fetchAssoc();
 		if($localRecord === false) {
 			throw new Exception('Record Not Found:' . implode(', ', $explination), EXCEPTION_RECORD_NOT_FOUND);
 		}
@@ -759,11 +759,11 @@ trait DataStruct {
 			}
 
 			$value = $this->_getFieldInfoForField($localKeyFieldName)->dbFormat($this->$localKeyFieldName);
-			gR()->db()->addWhere($extensionQB, '`' . $struct['fields'][$foreignKeyFieldName]->getTableName() . '`.`' . $struct['fields'][$foreignKeyFieldName]->getDatabaseFieldName() . '`', '=', $value);
+			CF\Runtime\Runtime::gI()->db()->addWhere($extensionQB, '`' . $struct['fields'][$foreignKeyFieldName]->getTableName() . '`.`' . $struct['fields'][$foreignKeyFieldName]->getDatabaseFieldName() . '`', '=', $value);
 		}
 
-		gR()->db()->queryBlock($extensionQB, 'loadExtensionRecord');
-		return gR()->db()->fetchAllAssoc(NULL, 'loadExtensionRecord');
+		CF\Runtime\Runtime::gI()->db()->queryBlock($extensionQB, 'loadExtensionRecord');
+		return CF\Runtime\Runtime::gI()->db()->fetchAllAssoc(NULL, 'loadExtensionRecord');
 	}
 
 
@@ -828,7 +828,7 @@ trait DataStruct {
 			}
 		}
 
-		gR()->db()->startBlock($blockName, $fields, $tablesToLoad);
+		CF\Runtime\Runtime::gI()->db()->startBlock($blockName, $fields, $tablesToLoad);
 
 		// onetooneTableJoins:
 
@@ -852,7 +852,7 @@ trait DataStruct {
 						$_localFields[] = $struct['fields'][$localKeyField]->getDatabaseFieldName();
 						$_foreignFields[] = $struct['fields'][$foreignKeyField]->getDatabaseFieldName();
 					}
-					gR()->db()->addJoin($blockName, 'LEFT', $struct['fields'][$localKeyField]->getTableName(), $struct['fields'][$foreignKeyField]->getTableName(), $_localFields, $_foreignFields);
+					CF\Runtime\Runtime::gI()->db()->addJoin($blockName, 'LEFT', $struct['fields'][$localKeyField]->getTableName(), $struct['fields'][$foreignKeyField]->getTableName(), $_localFields, $_foreignFields);
 
 				} else {
 					// inner:
@@ -882,7 +882,7 @@ trait DataStruct {
 							}
 						}
 
-						gR()->db()->addWhere($blockName, $left, '=', $right);
+						CF\Runtime\Runtime::gI()->db()->addWhere($blockName, $left, '=', $right);
 					}
 				}
 			}

@@ -25,7 +25,7 @@ class JsonLibrary {
 		if(class_exists($className)) {
 			return $className::createFromJson($constructorArgs, $contents);
 		} else {
-			gR()->addError('Class '. $className .' not found '. var_export($decoded, true));
+			Runtime\Runtime::gI()->addError('Class '. $className .' not found '. var_export($decoded, true));
 		}
 	}
 
@@ -62,7 +62,7 @@ class JsonLibrary {
 		if(class_exists($className)) {
 			return $className::createFromJson($constructorArgs, $contents);
 		} else {
-			gR()->addError('Class '. $className .' not found '. var_export($decoded, true));
+			Runtime\Runtime::gI()->addError('Class '. $className .' not found '. var_export($decoded, true));
 		}
 	}
 

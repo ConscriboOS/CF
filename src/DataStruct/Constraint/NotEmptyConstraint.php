@@ -7,7 +7,7 @@
 namespace CF\DataStruct\Constraint;
 
 use CF\DataStruct\Constraint\DataConstraint;
-use CF\ErrorCollection;
+use CF\Error\ErrorCollection;
 
 class NotEmptyConstraint extends DataConstraint {
 
@@ -24,7 +24,7 @@ class NotEmptyConstraint extends DataConstraint {
 		return $this;
 	}
 
-	public function assert($value, \CF\ErrorCollection $errors) {
+	public function assert($value, \CF\Error\ErrorCollection $errors) {
 
 		if(isset($this->field)) {
 			if(!$this->field->isEmptyValue($value, $this->strict)) {

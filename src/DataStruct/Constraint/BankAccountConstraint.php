@@ -6,7 +6,7 @@
  */
 namespace CF\DataStruct\Constraint;
 
-use CF\ErrorCollection;
+use CF\Error\ErrorCollection;
 use CF\Tool\BankAccount;
 
 class BankAccountConstraint extends \CF\DataStruct\Constraint\DataConstraint {
@@ -21,7 +21,7 @@ class BankAccountConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 		return $this;
 	}
 
-	public function assert($value, \CF\ErrorCollection $errors) {
+	public function assert($value, \CF\Error\ErrorCollection $errors) {
 		if(BankAccount::isEmptyAccount($value)) {
 			return true;
 		} else {

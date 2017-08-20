@@ -20,7 +20,7 @@ class CallbackConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 		return $this;
 	}
 
-	public function assert($value, \CF\ErrorCollection $errors) {
+	public function assert($value, \CF\Error\ErrorCollection $errors) {
 		$continue = true;
 		if(isset($this->field)) {
 			$continue = call_user_func($this->callBack, $value, $errors);

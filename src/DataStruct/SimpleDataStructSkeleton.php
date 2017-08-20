@@ -33,7 +33,7 @@ trait SimpleDataStructSkeleton {
 
 	function __construct($id = NULL) {
 		$this->initDataStruct();
-		$this->errors = \CF\Runtime::gI()->createErrorCollection();
+		$this->errors = \CF\Runtime\Runtime::gI()->createErrorCollection();
 		$this->id = $id;
 		$this->unusedId = true;
 	}

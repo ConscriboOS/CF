@@ -2,6 +2,7 @@
 
 namespace CF;
 use BehaviourException;
+use CF\Runtime\Runtime;
 
 
 /**
@@ -378,7 +379,7 @@ class Template {
 	}
 
 	private function raise_error($error, $errorLevel = NULL) {
-		gR()->addError($error);
+		\CF\Runtime\Runtime::gI()->addError($error);
 	}
 }
 

@@ -886,14 +886,14 @@ trait DataStructCollection {
 		}
 		$where = $this->_getWherePhraseForGroup('_root');
 		if($where !== NULL) {
-			\CF\Runtime::gI()->db()->addComplexWhere($dbBlockName, $where);
+			\CF\Runtime\Runtime::gI()->db()->addComplexWhere($dbBlockName, $where);
 		}
 	}
 
 	private function _getWherePhraseForGroup($identifier) {
 
 		$groupingBlockName = 'sub_' . $identifier;
-		\CF\Runtime::gI()->db()->startBlock($groupingBlockName);
+		\CF\Runtime\Runtime::gI()->db()->startBlock($groupingBlockName);
 
 		/**
 		 * Een grouping bestaat uit:
@@ -913,12 +913,12 @@ trait DataStructCollection {
 			if($grouping['parentId'] == $identifier) {
 				$where = $this->_getWherePhraseForGroup($childId);
 				if($where !== NULL) {
-					\CF\Runtime::gI()->db()->addComplexWhere($groupingBlockName, $where);
+					\CF\Runtime\Runtime::gI()->db()->addComplexWhere($groupingBlockName, $where);
 				}
 			}
 		}
 
-		$where = \CF\Runtime::gI()->db()->createWhereString($groupingBlockName, $this->groupings[$identifier]['type']);
+		$where = \CF\Runtime\Runtime::gI()->db()->createWhereString($groupingBlockName, $this->groupings[$identifier]['type']);
 		if(empty($where)) {
 			return NULL;
 		}
@@ -1343,7 +1343,7 @@ trait DataStructCollection {
 			try {
 				$objects[$id]->_storeDataStruct($sqlStatements);
 			} catch(Exception $e) {
-				gR()->addWarning('Could not store object from collection ' . $this->getCollectionClassName());
+				\CF\Runtime\Runtime::gI()->addWarning('Could not store object from collection ' . $this->getCollectionClassName());
 			}
 		}
 		DataStructManager::gI()->_executeStore($sqlStatements);

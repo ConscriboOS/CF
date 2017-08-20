@@ -7,7 +7,7 @@
 namespace CF\DataStruct\Constraint;
 
 
-use CF\ErrorCollection;
+use CF\Error\ErrorCollection;
 
 class LengthConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 
@@ -22,7 +22,7 @@ class LengthConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 		return $this;
 	}
 
-	public function assert($value, \CF\ErrorCollection $errors) {
+	public function assert($value, \CF\Error\ErrorCollection $errors) {
 
 		if(empty($value)) {
 			return true;

@@ -6,8 +6,8 @@
 
 namespace CF\Tool;
 
-use CF\ErrorCollection;
-use CF\Runtime;
+use CF\Error\ErrorCollection;
+use CF\Runtime\Runtime;
 
 define('_PARSE_OK_', 1);
 define('_PARSE_ERROR_', 0);

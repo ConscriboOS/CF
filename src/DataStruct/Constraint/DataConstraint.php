@@ -35,8 +35,8 @@ abstract class DataConstraint {
 	/**
 	 * Kijkt of de contraint houdt met de huidige waarde. Zo niet, wordt $errors gevuld
 	 * @param                     $value
-	 * @param \CF\ErrorCollection $errors
+	 * @param \CF\Error\ErrorCollection $errors
 	 * @return bool canContinue;
 	 */
-	abstract public function assert($value, \CF\ErrorCollection $errors);
+	abstract public function assert($value, \CF\Error\ErrorCollection $errors);
 }

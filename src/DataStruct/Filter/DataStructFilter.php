@@ -174,7 +174,7 @@ abstract class DataStructFilter {
 			case '<=':
 			case '<>':
 			case '=':
-				gR()->db()->addWhere($resource, $dbFieldName, $this->operator, $this->escapeElementaryValue($this->value));
+				\CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, $this->operator, $this->escapeElementaryValue($this->value));
 				break;
 			case 'in':
 				$sqlEl = array();

@@ -953,7 +953,7 @@ class DataStructOverview {
 		$this->storeInSession();
 
 		if(!$this->internalCall) {
-			gR()->addJavascriptFile('dataStructOverview.js');
+			\CF\Runtime\Runtime::gI()->addJavascriptFile('dataStructOverview.js');
 			$templates[DataStructOverview::OVERVIEW_TEMPLATE]->addData('TABLE', $templates[DataStructOverview::OVERVIEW_TEMPLATE]->write_block('OVERVIEW_TABLE'), true);
 
 			return $templates[DataStructOverview::OVERVIEW_TEMPLATE]->writeSection('OVERVIEW');

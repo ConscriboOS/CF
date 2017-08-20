@@ -3,7 +3,7 @@
 
 namespace CF\DataStruct\Constraint;
 
-use CF\ErrorCollection;
+use CF\Error\ErrorCollection;
 
 class PregConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 
@@ -16,7 +16,7 @@ class PregConstraint extends \CF\DataStruct\Constraint\DataConstraint {
 		return $this;
 	}
 
-	public function assert($value, \CF\ErrorCollection $errors) {
+	public function assert($value, \CF\Error\ErrorCollection $errors) {
 		if(!preg_match($this->regularExpression, $value)) {
 			$errors->add($this->errorMessage);
 			if($this->errorLevel == ErrorCollection::FATAL_ERROR) {

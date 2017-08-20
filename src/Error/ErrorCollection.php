@@ -1,5 +1,7 @@
 <?php
-namespace CF;
+namespace CF\Error;
+
+use CF\Runtime\RunTime;
 
 abstract class ErrorCollection {
 
@@ -52,7 +54,7 @@ abstract class ErrorCollection {
 	protected $lastStackTraceTxt;
 	protected $lastStackTraceHTML;
 
-	public function __construct(\CF\Runtime $runTime) {
+	public function __construct(\CF\Runtime\Runtime $runTime) {
 		$this->errors = array();
 		$this->infoMessage = NULL;
 		$this->runTime = $runTime;
@@ -138,7 +140,7 @@ abstract class ErrorCollection {
 	 * @param $errorMsg
 	 */
 	public function outputError($errorMsg) {
-		if(\CF\Runtime::gI()->getSapi() == 'cli') {
+		if(\CF\Runtime\Runtime::gI()->getSapi() == 'cli') {
 			print('Error: '. $errorMsg ."\n");
 		} else {
 			print($errorMsg);
@@ -171,7 +173,7 @@ abstract class ErrorCollection {
 
 
 	public function writeSingleEntryToLog($errorMessage) {
-		gR()->logAction($errorMessage, 'error');
+		\CF\Runtime\Runtime::gI()->logAction($errorMessage, 'error');
 	}
 
 
@@ -216,19 +218,19 @@ abstract class ErrorCollection {
 			if(isset($row['args'])) {
 				foreach($row['args'] as $arg) {
 					if(is_object($arg)) {
-						if(gR()->getSapi() != 'cli') {
+						if(\CF\Runtime\Runtime::gI()->getSapi() != 'cli') {
 							$argStr = '<small>Class:</small><b>'. get_class($arg) .'</b>';
 						} else {
 							$argStr = 'Class: '. get_class($arg) .'';
 						}
 					} elseif(is_array($arg)) {
-						if(gR()->getSapi() != 'cli') {
+						if(\CF\Runtime\Runtime::gI()->getSapi() != 'cli') {
 							$argStr = '<small>Array:(disabled)</small>';//<b>'. print_r($arg, true). '</b>';
 						} else {
 							$argStr = 'Array: (disabled)';
 						}
 					} else {
-						if(gR()->getSapi() != 'cli') {
+						if(\CF\Runtime\Runtime::gI()->getSapi() != 'cli') {
 							$argStr = '<small>'.getType($arg) .':</small><b>'. $arg .'</b>';
 						} else {
 							$argStr = ''.getType($arg) .': "'. $arg .'"';
@@ -256,7 +258,7 @@ abstract class ErrorCollection {
 		$this->lastStackTraceHTML = '<table><tr><th></th><th>File</th><th>Class</th><th><th>Function</th></tr>'. implode("\n", $table) .'</table>';
 		$this->lastStackTraceTxt = $out ."\n";
 
-		if(gR()->getSapi() != 'cli') {
+		if(\CF\Runtime\Runtime::gI()->getSapi() != 'cli') {
 			return $this->lastStackTraceHTML;
 		} else {
 			return $this->lastStackTraceTxt;

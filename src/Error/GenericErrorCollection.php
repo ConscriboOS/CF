@@ -1,7 +1,7 @@
 <?php
-namespace CF\Tool;
+namespace CF\Error;
 
-class GenericErrorCollection extends \CF\ErrorCollection {
+class GenericErrorCollection extends \CF\Error\ErrorCollection {
 
 	/**
 	 * @return String

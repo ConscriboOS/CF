@@ -1,5 +1,5 @@
 <?php
-namespace CF;
+namespace CF\Database;
 
 Interface ConscriboFrameworkDatabase {
 

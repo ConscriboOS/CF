@@ -51,16 +51,16 @@ class MultiCheckboxFilter extends \CF\DataStruct\DataStructIntegerFilter {
 
 		switch($this->operator) {
 			case 'contains':
-				gR()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' > 0');
+				\CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' > 0');
 				return;
 			case 'atleast':
-				gR()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' = ' . $this->escapeElementaryValue($this->value));
+				\CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' = ' . $this->escapeElementaryValue($this->value));
 				return;
 			case 'not':
-				gR()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' = 0');
+				\CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' & ' . $this->escapeElementaryValue($this->value) . ' = 0');
 				return;
 			case '=':
-				gR()->db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
+				\CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
 		}
 	}
 

@@ -8,7 +8,7 @@
  * in het framework zelf staat, en via het framework de implementatie runtime ophaalt.
  */
 function gR() {
-	return \CF\Runtime::gI('');
+	return \CF\Runtime\Runtime::gI('');
 }
 
 
@@ -121,7 +121,7 @@ function getReqNumVar($name, $errorMessage, $rangeStart = NULL, $rangeStop = NUL
 	$value = getNumVar($name, NULL, $rangeStart, $rangeStop);
 
 	if($value == NULL) {
-		gR()->addUserError($errorMessage);
+		\CF\Runtime\Runtime::gI()->addUserError($errorMessage);
 		return false;
 	}
 	return $value;
@@ -130,7 +130,7 @@ function getReqNumVar($name, $errorMessage, $rangeStart = NULL, $rangeStop = NUL
 function getReqIntVar($name, $errorMessage, $rangeStart = NULL, $rangeStop = NULL) {
 	$value = getReqNumVar($name, $errorMessage, $rangeStart, $rangeStop);
 	if($value != false && (floor($value) != ceil($value))) {
-		gR()->addUserError($errorMessage);
+		\CF\Runtime\Runtime::gI()->addUserError($errorMessage);
 		return false;
 	}
 	return intval($value);
@@ -149,14 +149,14 @@ function getDateVar($name,$default = false){
 function getReqDateVar($name,$errormessage){
 
 	$_date = getReqVar($name,$errormessage);
-	if(gR()->getUserErrors()->hasErrors()) {
+	if(\CF\Runtime\Runtime::gI()->getUserErrors()->hasErrors()) {
 		return false;
 	}
 
 	$date = parseHumanDate($_date);
 
 	if($date === NULL) {
-		gR()->addUserError($errormessage);
+		\CF\Runtime\Runtime::gI()->addUserError($errormessage);
 		return false;
 	}
 	return $date;
@@ -225,15 +225,15 @@ function getMultiVar($name, $default = false) {
 function getSesVar($name,$default = ''){
 
 
-	if (isset($_SESSION['u_'. gR()->getSessionScopeId() .'_'. $name])){
-		return $_SESSION['u_'. gR()->getSessionScopeId() .'_'.$name];
+	if (isset($_SESSION['u_'. \CF\Runtime\Runtime::gI()->getSessionScopeId() .'_'. $name])){
+		return $_SESSION['u_'. \CF\Runtime\Runtime::gI()->getSessionScopeId() .'_'.$name];
 	} else {
 		return $default;
 	}
 }
 
 function setSesVar($name,$value){
-	$_SESSION['u_'. gR()->getSessionScopeId() .'_'. $name] = $value;
+	$_SESSION['u_'. \CF\Runtime\Runtime::gI()->getSessionScopeId() .'_'. $name] = $value;
 }
 
 
@@ -827,7 +827,7 @@ function dateAdd($srcDate, $days , $months = 0, $years = 0) {
 	}
 
 	if($year < 1900 || $year > 2500) {
-		gR()->addNotice('Onbekend jaar ' . $year);
+		\CF\Runtime\Runtime::gI()->addNotice('Onbekend jaar ' . $year);
 		return $srcDate;
 	}
 
@@ -897,7 +897,7 @@ function dbStr($str) {
 	} elseif($str === NULL) {
 		return 'NULL';
 	} elseif(is_array($str) || is_object($str)) {
-		gR()->addWarning('Trying to use array as string: ' . var_export($str, true));
+		\CF\Runtime\Runtime::gI()->addWarning('Trying to use array as string: ' . var_export($str, true));
 		return '\'Array|Object\'';
 	} else {
 		return '\''. mysqli_real_escape_string(db()->getLink(), strval($str)) .'\'';
@@ -919,10 +919,10 @@ function dbInt($int) {
  */
 function dbIdentifier($identifierName) {
 	if(empty($identifierName)) {
-		gR()->addError('Empty identifier');
+		\CF\Runtime\Runtime::gI()->addError('Empty identifier');
 	}
 	if(strpos($identifierName, '`') !== false) {
-		gR()->addError('Identifier can not contain `');
+		\CF\Runtime\Runtime::gI()->addError('Identifier can not contain `');
 	}
 	return '`'. $identifierName .'`';
 }
@@ -981,7 +981,7 @@ function dbArray($array, $cast = NULL) {
 					$nArray[] = dbAmount($el);
 					break;
 				default:
-					gR()->addError('Unkown cast');
+					\CF\Runtime\Runtime::gI()->addError('Unkown cast');
 			}
 		}
 		$array = $nArray;
@@ -1039,10 +1039,10 @@ function is_unserializable($str) {
 	if(is_array($str)) {
 		return false;
 	}
-	gR()->toggleIgnoreNotices(true);
+	\CF\Runtime\Runtime::gI()->toggleIgnoreNotices(true);
 
 	$test = @unserialize($str);
-	gR()->toggleIgnoreNotices(false);
+	\CF\Runtime\Runtime::gI()->toggleIgnoreNotices(false);
 
 	if($test === false) {
 		return false;

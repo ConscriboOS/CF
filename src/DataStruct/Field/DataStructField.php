@@ -8,8 +8,8 @@ namespace CF\DataStruct\Field;
 
 use CF\DataStruct\Constraint\DataConstraint;
 use CF\DataStruct\Exception;
-use CF\Runtime;
-use CF\Tool\Database;
+use CF\Runtime\Runtime;
+use CF\Database\Database;
 use ConscriboForm;
 use CF\DataStruct\DataStruct;
 use CF\DataStruct\Filter\DataStructFilter;
@@ -180,7 +180,7 @@ abstract class DataStructField {
 		return $this->name;
 	}
 
-	public function validateValue($value, \CF\ErrorCollection $errors) {
+	public function validateValue($value, \CF\Error\ErrorCollection $errors) {
 		$errors->setDynamicContextLabel($this->label);
 
 		foreach($this->constraints as $constraint) {

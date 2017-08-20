@@ -1,5 +1,9 @@
 <?php
-namespace CF;
+namespace CF\Runtime;
+use CF\Configuration;
+use CF\Database\ConscriboFrameworkDatabase;
+use CF\Error;
+use CF\Error\ErrorCollection;
 
 /**
  * Abstracte laag die de runtime omgeving voor het Conscribo framework omschrijft.
@@ -23,13 +27,13 @@ abstract class Runtime {
 
 	/**
 	 * getInstance zorgt ervoor dat het framework een singleton implementatie kan gebruiken om bij het framework te komen. Hierbij wordt uit optimalisatie de instance ref gecached.
-	 * @see shorthand procedure: gR(); (getRuntime) in tools welke een implementatie een snellere schrijfwijze geeft voor \CF\Runtime::gI();
+	 * @see shorthand procedure: \CF\Runtime::gI(); (getRuntime) in tools welke een implementatie een snellere schrijfwijze geeft voor \CF\Runtime::gI();
 	 * @return static
 	 */
 	static public function gI() {
 		static $currentRuntime = NULL;
 		if($currentRuntime === NULL) {
-			$className = CONSCRIBO_RUNTIME_CLASSNAME;
+			$className = Configuration::gI()->getRuntimeName();
 			$currentRuntime = $className::_gI();
 		}
 		return $currentRuntime;
@@ -49,24 +53,24 @@ abstract class Runtime {
 	}
 
 	/**
-	 * @var \CF\ErrorCollection
+	 * @var \CF\Error\ErrorCollection
 	 */
 	protected $systemErrors;
 
 	/**
-	 * @var \CF\ErrorCollection
+	 * @var \CF\Error\ErrorCollection
 	 */
 	protected $systemWarnings;
 
 
 
 	/**
-	 * @var \CF\ErrorCollection
+	 * @var \CF\Error\ErrorCollection
 	 */
 	protected $systemNotices;
 
 	/**
-	 * @var \CF\ErrorCollection
+	 * @var \CF\Error\ErrorCollection
 	 */
 	public $userErrors;
 
@@ -77,7 +81,7 @@ abstract class Runtime {
 
 	/**
 	 * Create an errorcollection compatible with this environment
-	 * @return \CF\ErrorCollection
+	 * @return \CF\Error\ErrorCollection
 	 */
 	abstract public function createErrorCollection();
 
@@ -142,7 +146,7 @@ abstract class Runtime {
 		$this->systemNotices->add($msg);
 	}
 
-	public function addSystemNotices(\CF\ErrorCollection $errors) {
+	public function addSystemNotices(Error\ErrorCollection $errors) {
 		$this->systemNotices->mergeErrors($errors);
 	}
 
@@ -154,7 +158,7 @@ abstract class Runtime {
 		$this->userErrors->add($msg);
 	}
 
-	public function addUserErrors(\CF\ErrorCollection $errors) {
+	public function addUserErrors(Error\ErrorCollection $errors) {
 		$this->userErrors->mergeErrors($errors);
 	}
 

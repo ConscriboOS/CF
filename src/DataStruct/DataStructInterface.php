@@ -56,8 +56,8 @@ interface DataStructInterface {
 
 	/**
 	 * Controleert de datastruct op fouten.
-	 * @param \CF\ErrorCollection $errors
-	 * @return \CF\ErrorCollection errors
+	 * @param \CF\Error\ErrorCollection $errors
+	 * @return \CF\Error\ErrorCollection errors
 	 */
 	function validate($errors = NULL);
 

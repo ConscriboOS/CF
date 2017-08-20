@@ -5,9 +5,11 @@
  * Time: 14:44
  */
 
-namespace CF\Tool;
+namespace CF\Runtime;
 
-use CF\Runtime;
+use CF\Database\Database;
+use CF\Error\GenericErrorCollection;
+use CF\Runtime\Runtime;
 
 class GenericRuntime extends Runtime {
 
@@ -35,7 +37,7 @@ class GenericRuntime extends Runtime {
 
 	/**
 	 * Create an errorcollection compatible with this environment
-	 * @return \CF\ErrorCollection
+	 * @return \CF\Error\ErrorCollection
 	 */
 	public function createErrorCollection() {
 		return new GenericErrorCollection($this);

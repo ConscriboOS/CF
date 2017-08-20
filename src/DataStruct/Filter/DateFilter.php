@@ -39,11 +39,11 @@ class DateFilter extends \CF\DataStruct\Filter\StringFilter {
 			case '>=':
 			case'<=':
 				$operatorApplied = true;
-				gR()->db()->addWhere($resource, $dbFieldName, $this->operator, $this->escapeElementaryValue($this->value));
+				\CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, $this->operator, $this->escapeElementaryValue($this->value));
 				break;
 			case 'between':
-				gR()->db()->addWhere($resource, $dbFieldName, '>=', $this->escapeElementaryValue($this->value['from']));
-				gR()->db()->addWhere($resource, $dbFieldName, '<=', $this->escapeElementaryValue($this->value['to']));
+				\CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, '>=', $this->escapeElementaryValue($this->value['from']));
+				\CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, '<=', $this->escapeElementaryValue($this->value['to']));
 				$operatorApplied = true;
 				break;
 		}

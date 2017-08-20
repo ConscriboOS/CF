@@ -3,6 +3,8 @@
 namespace CF;
 
 
+use CF\Runtime\Runtime;
+
 class Mailer {
 
 	private $from;
