@@ -23,9 +23,9 @@ class CheckBoxFilter extends \CF\DataStruct\Filter\DataStructFilter {
 		switch($this->operator) {
 			case '=':
 				if($this->value) {
-					db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
+				CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
 				} else {
-					db()->addComplexWhere($resource, '(' . $dbFieldName . ' IS NULL OR ' . $dbFieldName . ' = 0)');
+				CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, '(' . $dbFieldName . ' IS NULL OR ' . $dbFieldName . ' = 0)');
 				}
 				break;
 			default:

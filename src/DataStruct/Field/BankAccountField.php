@@ -6,6 +6,7 @@
  */
 namespace CF\DataStruct\Field;
 
+use CF\Configuration;
 use CF\Tool\BankAccount;
 use CF\DataStruct\Constraint\BankAccountConstraint;
 use ConscriboForm;
@@ -47,7 +48,7 @@ class BankAccountField extends \CF\DataStruct\Field\DataStructField {
 	 */
 	public function setDatabaseFieldName($tableName, $fieldName) {
 		$this->tableName = $tableName;
-		if(_DEBUGGING_ && !validateElements($fieldName, array('iban' => array('string', true),
+		if(Configuration::gI()->isDebugging() && !validateElements($fieldName, array('iban' => array('string', true),
 															  'bic' => array('string', true),
 															  'name' => array('string', true)))
 		) {

@@ -883,9 +883,9 @@ function formatTime($time) {
 
 function dbStr($str) {
 	if(is_string($str)) {
-		if(db()->getLink() !== NULL) {
+		if(CF\Runtime\Runtime::gI()->db()->getLink() !== NULL) {
 			try {
-				return ($str === NULL) ? 'NULL' : '\'' . mysqli_real_escape_string(db()->getLink(), $str) . '\'';
+				return ($str === NULL) ? 'NULL' : '\'' . mysqli_real_escape_string(CF\Runtime\Runtime::gI()->db()->getLink(), $str) . '\'';
 			} catch (Exception $e) {
 				return ($str === NULL)? 'NULL': '\''. str_replace(array("'"), array('\\\''), $str) .'\'';
 			}
@@ -900,7 +900,7 @@ function dbStr($str) {
 		\CF\Runtime\Runtime::gI()->addWarning('Trying to use array as string: ' . var_export($str, true));
 		return '\'Array|Object\'';
 	} else {
-		return '\''. mysqli_real_escape_string(db()->getLink(), strval($str)) .'\'';
+		return '\''. mysqli_real_escape_string(CF\Runtime\Runtime::gI()->db()->getLink(), strval($str)) .'\'';
 	}
 }
 

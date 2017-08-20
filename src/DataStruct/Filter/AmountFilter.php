@@ -93,11 +93,11 @@ class AmountFilter extends \CF\DataStruct\Filter\IntegerFilter {
 
 		if(count($bOrQuery) > 0) {
 			$sqlValue = '(' . implode(' OR ', $bOrQuery) . ')';
-			db()->addComplexWhere($resource, $sqlValue);
+		CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $sqlValue);
 
 		} else {
 			// kan geen nummer maken
-			db()->addComplexWhere($resource, '1 = 2');
+		CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, '1 = 2');
 		}
 
 	}

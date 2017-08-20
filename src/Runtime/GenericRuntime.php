@@ -19,6 +19,7 @@ class GenericRuntime extends Runtime {
 		if ($runTime === NULL) {
 			$runTime = new GenericRuntime();
 		}
+
 		return $runTime;
 	}
 
@@ -26,6 +27,7 @@ class GenericRuntime extends Runtime {
 		parent::init();
 		$this->db = new Database();
 		$this->db->connect();
+
 	}
 
 	/**

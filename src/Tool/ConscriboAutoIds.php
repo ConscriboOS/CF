@@ -27,25 +27,25 @@ function autoIdReserveIds($idType, $amount = 1) {
 		return array();
 	}
 	if($amount < 0) {
-		throw DeveloperException('Negative amount of autoIds requested');
+		throw new CF\Exception('Negative amount of autoIds requested');
 	}
 
 	$indexesReserved = false;
 	while($indexesReserved === false) {
-		db()->query('SELECT next_id FROM auto_ids WHERE id_type = '. dbStr($idType), 'indexes');
-		if(db()->numRows('indexes') > 0 ){
-			list($nextFree) = db()->fetchRow('indexes');
+		\CF\Runtime\Runtime::gI()->db()->query('SELECT next_id FROM auto_ids WHERE id_type = '. dbStr($idType), 'indexes');
+		if(\CF\Runtime\Runtime::gI()->db()->numRows('indexes') > 0 ){
+			list($nextFree) = \CF\Runtime\Runtime::gI()->db()->fetchRow('indexes');
 
 			$newNextFree = $nextFree + $amount;
-			db()->query('UPDATE auto_ids SET next_id = '. dbInt($newNextFree) .' WHERE next_id = '. dbInt($nextFree) .' AND id_type = '. dbStr($idType), 'indexes');
-			if(db()->affectedRows() > 0) {
+			\CF\Runtime\Runtime::gI()->db()->query('UPDATE auto_ids SET next_id = '. dbInt($newNextFree) .' WHERE next_id = '. dbInt($nextFree) .' AND id_type = '. dbStr($idType), 'indexes');
+			if(\CF\Runtime\Runtime::gI()->db()->affectedRows() > 0) {
 				$indexesReserved = true;
 			}
 		} else {
 			$nextFree = 1;
 			$newNextFree = $nextFree + $amount;
-			db()->query('INSERT INTO auto_ids (id_type, next_id)  VALUES ('. dbStr($idType) .', '. $newNextFree .') ON DUPLICATE KEY UPDATE next_id = next_id');
-			if(db()->affectedRows() > 0) {
+			\CF\Runtime\Runtime::gI()->db()->query('INSERT INTO auto_ids (id_type, next_id)  VALUES ('. dbStr($idType) .', '. $newNextFree .') ON DUPLICATE KEY UPDATE next_id = next_id');
+			if(\CF\Runtime\Runtime::gI()->db()->affectedRows() > 0) {
 				$indexesReserved = true;
 			}
 		}
@@ -55,13 +55,13 @@ function autoIdReserveIds($idType, $amount = 1) {
 
 /**
  * Functie om zuiniger om te gaan met ids. Op het moment dat een id niet meer gebruikt gaat worden, wordt de idset verlaagd in de db (alleen als dit mogelijk is)
- * @param type $idType
- * @param type $id
+ * @param string $idType
+ * @param int $id
  */
 function autoIdFreeId($idType, $id) {
 	$id = round($id);
-	if(db()->isConnected()) {
+	if(\CF\Runtime\Runtime::gI()->db()->isConnected()) {
 		// als we hierna nog geen id's hebben uitgegeven, verlagen we het id weer.
-		db()->query('UPDATE auto_ids SET next_id = '. dbInt($id) .' WHERE next_id = '. dbInt($id + 1) .' AND id_type = '. dbStr($idType), 'indexes');
+		\CF\Runtime\Runtime::gI()->db()->query('UPDATE auto_ids SET next_id = '. dbInt($id) .' WHERE next_id = '. dbInt($id + 1) .' AND id_type = '. dbStr($idType), 'indexes');
 	}
 }

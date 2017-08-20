@@ -45,12 +45,12 @@ class StringFilter extends \CF\DataStruct\Filter\DataStructFilter {
 
 				if(count($sqlEl) == 0) {
 					// lege resultset:
-					db()->addComplexWhere($resource, '1 = 2');
+				CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, '1 = 2');
 					return;
 				}
 
 
-				db()->addComplexWhere($resource, $dbFieldName .' IN ('. implode(',', $sqlEl) .')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName .' IN ('. implode(',', $sqlEl) .')');
 
 
 				break;
@@ -69,10 +69,10 @@ class StringFilter extends \CF\DataStruct\Filter\DataStructFilter {
 					// niets in not in, alles teruggeven
 					return;
 				}
-				db()->addComplexWhere($resource, $dbFieldName .' NOT IN ('. implode(',', $sqlEl) .')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName .' NOT IN ('. implode(',', $sqlEl) .')');
 				break;
 			case 'like':
-				db()->addComplexWhere($resource, $dbFieldName .' LIKE ('. $this->escapeElementaryValue($this->value) .')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName .' LIKE ('. $this->escapeElementaryValue($this->value) .')');
 				break;
 			default:
 				throw new \Exception('Unknown operator '. $this->operator);

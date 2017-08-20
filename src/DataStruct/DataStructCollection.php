@@ -7,7 +7,6 @@ use CF\DataStruct\Filter\DataStructFilter;
 use CF\DataStruct\Join;
 use CF\DataStruct\Field;
 use CF\DataStruct\Filter;
-
 use CF\DataStruct\Join\DataStructJoin;
 use ConscriboDataStructCollectionManager;
 use CF\DataStruct\DataStructCollectionManager;
@@ -947,15 +946,15 @@ trait DataStructCollection {
 	protected function _applyLimiters($dbBlockName) {
 
 		if($this->offset !== NULL && $this->limit !== NULL) {
-			db()->setLimit($dbBlockName, $this->offset . ',' . $this->limit);
+		CF\Runtime\Runtime::gI()->db()->setLimit($dbBlockName, $this->offset . ',' . $this->limit);
 		} elseif($this->offset !== NULL) {
-			db()->setLimit($dbBlockName, $this->offset . ', 999999999');
+		CF\Runtime\Runtime::gI()->db()->setLimit($dbBlockName, $this->offset . ', 999999999');
 		} elseif($this->limit !== NULL) {
-			db()->setLimit($dbBlockName, $this->limit);
+		CF\Runtime\Runtime::gI()->db()->setLimit($dbBlockName, $this->limit);
 		}
 
 		if($this->calculateNumberOfRows) {
-			db()->setCalcFoundRows($dbBlockName, true);
+		CF\Runtime\Runtime::gI()->db()->setCalcFoundRows($dbBlockName, true);
 		}
 	}
 
@@ -965,14 +964,14 @@ trait DataStructCollection {
 	 */
 	private function _executeQuery($blockName) {
 
-		db()->setCalcFoundRows($blockName, $this->calculateNumberOfRows == true);
+	CF\Runtime\Runtime::gI()->db()->setCalcFoundRows($blockName, $this->calculateNumberOfRows == true);
 
-		db()->queryBlock($blockName, 'CollectionLoad');
+	CF\Runtime\Runtime::gI()->db()->queryBlock($blockName, 'CollectionLoad');
 
 		if($this->calculateNumberOfRows) {
-			list($this->totalNumRows) = db()->select('SELECT FOUND_ROWS()');
+			list($this->totalNumRows) = CF\Runtime\Runtime::gI()->db()->select('SELECT FOUND_ROWS()');
 		} else {
-			list($this->totalNumRows) = db()->getNumRows('CollectionLoad');
+			list($this->totalNumRows) = CF\Runtime\Runtime::gI()->db()->getNumRows('CollectionLoad');
 		}
 		$collectionDef = DataStructCollectionManager::gI()->getDefinition($this->getCollectionClassName());
 
@@ -984,7 +983,7 @@ trait DataStructCollection {
 			$dbFieldName = NULL;
 		}
 
-		$resultSet = db()->fetchAllAssoc($dbFieldName, 'CollectionLoad');
+		$resultSet =CF\Runtime\Runtime::gI()->db()->fetchAllAssoc($dbFieldName, 'CollectionLoad');
 		return $resultSet;
 	}
 
@@ -1062,13 +1061,13 @@ trait DataStructCollection {
 					// Direct de ResultSet voorbereiden nu we hier toch zijn:
 					$extensionRecords[$indexValue][DataStructJoin::TYPE_EXTENSION][$parentPropertyName] = array();
 				}
-				db()->addComplexWhere($blockName, $keyStr . ' IN (' . implode(',', $joinValues) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($blockName, $keyStr . ' IN (' . implode(',', $joinValues) . ')');
 
 				// uitvoeren:
-				db()->queryBlock($blockName, $blockName);
+			CF\Runtime\Runtime::gI()->db()->queryBlock($blockName, $blockName);
 
 				// nu op de juiste positie de waarden weer invullen:
-				while($row = db()->fetchAssoc($blockName)) {
+				while($row =CF\Runtime\Runtime::gI()->db()->fetchAssoc($blockName)) {
 
 					$keyEl = array();
 					//opzoeken wie het is:

@@ -185,10 +185,10 @@ abstract class DataStructFilter {
 
 				if(count($sqlEl) == 0) {
 					// lege resultset:
-					db()->addComplexWhere($resource, '1 = 2');
+				CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, '1 = 2');
 					return;
 				}
-				db()->addComplexWhere($resource, $dbFieldName . ' IN (' . implode(',', $sqlEl) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' IN (' . implode(',', $sqlEl) . ')');
 				break;
 			case 'not in':
 				$sqlEl = array();
@@ -201,10 +201,10 @@ abstract class DataStructFilter {
 					// niets in not in, alles teruggeven
 					return;
 				}
-				db()->addComplexWhere($resource, $dbFieldName . ' NOT IN (' . implode(',', $sqlEl) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' NOT IN (' . implode(',', $sqlEl) . ')');
 				break;
 			case 'like':
-				db()->addComplexWhere($resource, $dbFieldName . ' LIKE (' . $this->escapeElementaryValue($this->value) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' LIKE (' . $this->escapeElementaryValue($this->value) . ')');
 		}
 	}
 

@@ -10,6 +10,7 @@ class Configuration {
 	private $libraryRoot;
 	private $fileRoot;
 
+	private $debugging;
 	/**
 	 * @var array with per name a configuration;
 	 */
@@ -34,7 +35,7 @@ class Configuration {
 	 */
 	public function getRuntimeName() {
 		if($this->runtimeName === NULL) {
-			return '\\CF\\Tool\\GenericRuntime';
+			return '\\CF\\Runtime\\GenericRuntime';
 		}
 		return $this->runtimeName;
 	}
@@ -75,6 +76,25 @@ class Configuration {
 	public function getFileRoot() {
 		return $this->fileRoot;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function isDebugging()
+	{
+		return $this->debugging;
+	}
+
+	/**
+	 * @param bool $debugging
+	 * @return Configuration
+	 */
+	public function setIsDebugging($debugging)
+	{
+		$this->debugging = $debugging;
+		return $this;
+	}
+
 
 
 }

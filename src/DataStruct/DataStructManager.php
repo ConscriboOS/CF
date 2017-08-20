@@ -174,7 +174,7 @@ class DataStructManager {
 		$res = array();
 		foreach($this->getKeyFields($className) as $field) {
 			if(!array_key_exists($field->getName(), $row)) {
-				throw new DeveloperException('Insufficient information to retrieve object from universe. Key: ' . $fieldName . ' Needed: ' . implode(',', array_keys($keyFields)) . ' Given: ' . implode(',', array_keys($collectionKeys)));
+				throw new DeveloperException('Insufficient information to retrieve object from universe. Key: ' . $field . ' Needed: ' . implode(',', array_keys($this->getKeyFields($className))) . ' Given: ' . implode(',', array_keys($row)));
 			}
 			$res[$field->getName()] = $row[$field->getName()];
 		}
@@ -695,7 +695,7 @@ class DataStructManager {
 					throw new Exception('Table ' . $tableName . ' has no keydefinitions!, add keyDefinitions with field->isDBKey();', EXCEPTION_INVALID_DATA_KEY);
 				}
 
-				db()->multipleDelete($tableName, array_values($keys[$className][$tableName]), $updateInfo['records']);
+			\CF\Runtime\Runtime::gI()->db()->multipleDelete($tableName, array_values($keys[$className][$tableName]), $updateInfo['records']);
 			}
 		}
 	}
@@ -729,7 +729,7 @@ class DataStructManager {
 					throw new Exception('Table ' . $tableName . ' has no keydefinitions!, add keyDefinitions with field->isDBKey();', EXCEPTION_INVALID_DATA_KEY);
 				}
 
-				db()->multipleUpdate($tableName, array_values($cols[$className][$tableName]), array_values($keys[$className][$tableName]), $updateInfo['records']);
+			\CF\Runtime\Runtime::gI()->db()->multipleUpdate($tableName, array_values($cols[$className][$tableName]), array_values($keys[$className][$tableName]), $updateInfo['records']);
 			}
 		}
 	}
@@ -774,7 +774,7 @@ class DataStructManager {
 				if(count($columns) > 0) {
 					// Later: opsplitsen in chunks van max een stuk of 500;
 					$sqlString = 'INSERT INTO `' . $tableName . '` (' . implode(',', $columns) . ') VALUES ' . implode(',', $inserts);
-					db()->query($sqlString);
+				\CF\Runtime\Runtime::gI()->db()->query($sqlString);
 				}
 			}
 		}

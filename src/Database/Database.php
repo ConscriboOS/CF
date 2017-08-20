@@ -2,6 +2,7 @@
 
 namespace CF\Database;
 
+use CF\Configuration;
 use CF\Database\ConscriboFrameworkDatabase;
 use CF\Error\ErrorCollection;
 use CF\Exception\DeveloperException;
@@ -100,7 +101,7 @@ class Database implements ConscriboFrameworkDatabase{
 	 */
 	public function connect($which = 'default') {
 		
-		$config = CF\Configuration::gI()->getDatabaseConfiguration($which);
+		$config = Configuration::gI()->getDatabaseConfiguration($which);
 
 		return $this->connectCustomDataBase($config['hostName'],
 											$config['userName'],
@@ -120,7 +121,7 @@ class Database implements ConscriboFrameworkDatabase{
 		}
 
 		if(!$this->db = mysqli_connect($host, $user, $password, NULL, $port)) {
-			\CF\Runtime\Runtime::gI()->addError('Mysql connect: Unable to connect to Database!');
+			throw new \Exception('Mysql connect: Unable to connect to Database!');
 		}
 
 		$this->startTime = microtime(true);
@@ -197,7 +198,7 @@ class Database implements ConscriboFrameworkDatabase{
 
 		$this->lastInsertId[$result] = '';
 
-		if(_DEBUGGING_) {
+		if(Configuration::gI()->isDebugging()) {
 			if(!isset($this->output[$result])) {
 				$this->output[$result] = '';
 			}
@@ -229,7 +230,7 @@ class Database implements ConscriboFrameworkDatabase{
 		} else {
 			$this->numrows[$result] = 0;
 		}
-		if(_DEBUGGING_) {
+		if(Configuration::gI()->isDebugging()) {
 			if((microtime(true) - $startTime) > 0.2) {
 				//\CF\Runtime::gI()->addNotice('Slow query: '. (microtime(true) - $startTime) . $query );
 			}

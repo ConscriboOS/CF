@@ -3,6 +3,7 @@
 namespace CF\Tool;
 
 
+use CF\Configuration;
 use CF\Runtime\Runtime;
 
 class Mailer {
@@ -205,7 +206,7 @@ class Mailer {
 
 		$body = str_replace("\n.", "\n..", $body);
 
-		if(_DEBUGGING_) {
+		if(Configuration::gI()->isDebugging()) {
 			$this->to = 'dev-' . str_replace(array('@', ',', ';', ':'), '', $this->to) . '@'. Runtime::gI()->getHostName();
 
 			if(isset($_ENV['NoMail']) && $_ENV['NoMail']) {

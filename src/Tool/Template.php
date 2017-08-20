@@ -176,7 +176,7 @@ class Template {
 	 */
 	public function addData($key, $value, $resident = false) {
 
-		if(_DEBUGGING_) {
+		if(Configuration::gI()->isDebugging()) {
 			if(is_object($value)) {
 				$this->raise_error('Cannot add object to template ' . $key, NOTICE);
 				return;

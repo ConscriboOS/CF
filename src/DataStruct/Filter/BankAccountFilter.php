@@ -20,10 +20,10 @@ class BankAccountFilter extends \CF\DataStruct\Filter\DataStructFilter {
 
 		switch($this->operator) {
 			case 'IS':
-				db()->addWhere($resource, $dbFieldName, 'IS', $this->escapeElementaryValue($this->value));
+			CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, 'IS', $this->escapeElementaryValue($this->value));
 				break;
 			case '=':
-				db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
+			CF\Runtime\Runtime::gI()->db()->addWhere($resource, $dbFieldName, '=', $this->escapeElementaryValue($this->value));
 				break;
 			case 'in':
 				$sqlEl = array();
@@ -34,10 +34,10 @@ class BankAccountFilter extends \CF\DataStruct\Filter\DataStructFilter {
 
 				if(count($sqlEl) == 0) {
 					// lege resultset:
-					db()->addComplexWhere($resource, '1 = 2');
+				CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, '1 = 2');
 					return;
 				}
-				db()->addComplexWhere($resource, $dbFieldName . ' IN (' . implode(',', $sqlEl) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' IN (' . implode(',', $sqlEl) . ')');
 				break;
 			case 'not in':
 				$sqlEl = array();
@@ -50,10 +50,10 @@ class BankAccountFilter extends \CF\DataStruct\Filter\DataStructFilter {
 					// niets in not in, alles teruggeven
 					return;
 				}
-				db()->addComplexWhere($resource, $dbFieldName . ' NOT IN (' . implode(',', $sqlEl) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' NOT IN (' . implode(',', $sqlEl) . ')');
 				break;
 			case 'like':
-				db()->addComplexWhere($resource, $dbFieldName . ' LIKE (' . $this->escapeElementaryValue($this->value) . ')');
+			CF\Runtime\Runtime::gI()->db()->addComplexWhere($resource, $dbFieldName . ' LIKE (' . $this->escapeElementaryValue($this->value) . ')');
 		}
 	}
 

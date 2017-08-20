@@ -626,7 +626,7 @@ abstract class DataStructField {
 	}
 
 	public function addOrderSql($dbBlockName, $order) {
-		db()->addOrder($dbBlockName, $this->getDatabaseFieldName() . ' ' . $order);
+	CF\Runtime\Runtime::gI()->db()->addOrder($dbBlockName, $this->getDatabaseFieldName() . ' ' . $order);
 	}
 
 	abstract protected function addSpecializedFieldToForm(ConscriboForm $form, $default = NULL);
