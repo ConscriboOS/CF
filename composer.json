@@ -2,7 +2,7 @@
     "name": "ConscriboOS/CF",
     "type": "library",
     "description": "Non-instrusive ORM for PHP",
-    "keywords": ["database", "orm", "trait", "join", "inheritance", "versitile"],
+    "keywords": ["database", "orm", "trait", "join", "inheritance", "versatile"],
     "homepage": "https://github.com/ConscriboOS/CF",
     "license": "MIT",
     "autoload": {
@@ -10,5 +10,5 @@
     },
     "require": {
         "php": ">=5.4.0"
-    },
+    }
 }
