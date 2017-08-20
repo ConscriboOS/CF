@@ -1,8 +1,9 @@
 {
-    "name": "ConscriboOS/CF",
+    "name": "conscribo-os/cf",
     "type": "library",
     "description": "Non-instrusive ORM for PHP",
-    "keywords": ["database", "orm", "trait", "join", "inheritance", "versatile"],
+    
+	"keywords": ["database", "orm", "trait", "join", "inheritance", "versatile"],
     "homepage": "https://github.com/ConscriboOS/CF",
     "license": "MIT",
     "autoload": {
