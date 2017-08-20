@@ -7,7 +7,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": { "CF\\": "src/" },
-        "files": ["Tool/ConscriboTools.php", "Tool/ConscriboAutoIds.php"]
+        "files": ["src/Tool/ConscriboTools.php", "src/Tool/ConscriboAutoIds.php"]
     },
     "require": {
         "php": ">=5.4.0"
