@@ -71,12 +71,12 @@ class Template {
 	 */
 	function __construct($fileName, $compat = false) {
 		$this->fileName = $fileName;
-		if(CF_TEMPLATE_ALLOW_MIXED_CASE_VARS) {
+		if(defined('CF_TEMPLATE_ALLOW_MIXED_CASE_VARS') && CF_TEMPLATE_ALLOW_MIXED_CASE_VARS) {
 			$this->validVarChars = 'a-zA-Z0-9_';
 		} else {
 			$this->validVarChars = 'A-Z0-9_';
 		}
-		if(CF_TEMPLATE_ALLOW_MIXED_CASE_SECTIONS) {
+		if(defined('CF_TEMPLATE_ALLOW_MIXED_CASE_SECTIONS') && CF_TEMPLATE_ALLOW_MIXED_CASE_SECTIONS) {
 			$this->validSectionChars = 'a-zA-Z0-9_';
 		} else {
 			$this->validSectionChars = 'A-Z0-9_';

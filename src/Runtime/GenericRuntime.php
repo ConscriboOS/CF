@@ -26,7 +26,7 @@ class GenericRuntime extends Runtime {
 	protected function init() {
 		parent::init();
 		$this->db = new Database();
-		$this->db->connect();
+//		$this->db->connect();
 
 	}
 
