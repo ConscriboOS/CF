@@ -4,6 +4,7 @@ use CF;
 use CF\DataStruct\Field\DataStructField;
 use CF\DataStruct\Join;
 use CF\DataStruct\Join\DataStructJoin;
+use CF\Exception\CatchableException;
 use CF\Exception\DeveloperException;
 use Conscribo\CF\DataStructXMLBackup;
 use ConscriboForm;
@@ -11,10 +12,8 @@ use Exception;
 
 
 /**
- * Deze nieuwe trait is ontworpen voor gebruik met 'dataobjecten' Deze objecten worden een vervanging van de vele structs die nu Conscribo verlossen van los argumetnen heen en weer fietsen.
- * een Dataobject kan beter controle houden op de interne datastruct.
- *
- * Het nadeel van een object is dat de Json representatie niet meer dan een array bevat. en dat deze niet weer terug decode naar dat dataobject. Met deze trait kan een object worden voorzien van een json representatie die dat wel kan.
+ * Trait DataStruct
+ * @package CF\DataStruct
  */
 trait DataStruct {
 

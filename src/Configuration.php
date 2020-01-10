@@ -27,7 +27,7 @@ class Configuration {
 	private function __construct() {
 		$this->libraryRoot = realpath(dirname(__FILE__)) .'/';
 		// fileRoot is the path to the project.
-		$this->fileRoot = realpath(dirname(__FILE__) .'../../../') .'/';
+		$this->fileRoot = realpath(dirname(__FILE__) .'/../../../../') .'/';
 	}
 
 	/**
